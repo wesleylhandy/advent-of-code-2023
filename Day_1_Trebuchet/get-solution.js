@@ -1,5 +1,8 @@
-const {getData} = require('./get-data');
-const {decodeDataIntoCalibrationValues, decodeDataIntoCalibrationValuesReadingEnglishNumbers} = require('./transform-data')
+const { getData } = require('./get-data');
+const {
+    decodeDataIntoCalibrationValues,
+    decodeDataIntoCalibrationValuesReadingEnglishNumbers,
+} = require('./transform-data');
 
 async function getSolution() {
     const data = await getData();
@@ -8,8 +11,8 @@ async function getSolution() {
 
     return {
         calibrationSum: reduceToSum(decodedCalibrationData),
-        calibrationGranularSum: reduceToSum(decodedGranularCalibrationData) 
-    }
+        calibrationGranularSum: reduceToSum(decodedGranularCalibrationData),
+    };
 }
 
 function reduceToSum(array) {
@@ -18,4 +21,4 @@ function reduceToSum(array) {
     }, 0);
 }
 
-module.exports.getSolution = getSolution
+module.exports.getSolution = getSolution;

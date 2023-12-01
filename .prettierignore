@@ -1,0 +1,23 @@
+# Build
+dist
+i18n
+
+#Publish
+publish
+*.yml
+*.yaml
+
+# IDEs
+.idea
+.vscode
+
+# Other
+.babelrc
+babel.config.js
+cypress.json
+gql-codegen-config.json
+package-lock.json
+package.json
+yarn.lock
+README.md
+tsconfig.json
