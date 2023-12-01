@@ -1,4 +1,4 @@
-const day1 = require('./Day_1_Trebuchet/getSolution');
+const day1 = require('./Day_1_Trebuchet/get-solution');
 
 const getSolutionByDay = new Map([
     ['1', day1.getSolution]

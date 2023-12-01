@@ -40,16 +40,8 @@ function decodeDataIntoCalibrationValuesReadingEnglishNumbers(data) {
                     transformedDatum = transformedDatum.replaceAll(key, value)
                 }
             }
-
-            transformedDatum = transformedDatum.replace(/[^0-9]/gi, '')
-
-            transformedDatum = transformedDatum[0] + transformedDatum[transformedDatum.length - 1]
-
-            console.log(datum, transformedDatum)
-
-            return transformedDatum
-        })
-        .map(stripNonNumerics);
+            return stripNonNumerics(transformedDatum);
+        });
 }
 
 function stripNonNumerics(datum) {
