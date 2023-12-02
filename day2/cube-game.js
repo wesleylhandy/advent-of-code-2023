@@ -1,6 +1,7 @@
 const { CubeGameBag } = require('./cube-game-bag');
 const { CubeGameReveal } = require('./cube-game-reveals');
 const { isValidGameReveal } = require('./is-valid-reveal');
+const { maxRevealByColor } = require('./max-reveal');
 
 class CubeGame {
     #gameId = null;
@@ -14,6 +15,14 @@ class CubeGame {
 
     get gameId() {
         return this.#gameId;
+    }
+
+    getGamePower() {
+        const maxGreen = this.#reveals.reduce(maxRevealByColor('green'), 1);
+        const maxRed = this.#reveals.reduce(maxRevealByColor('red'), 1);
+        const maxBlue = this.#reveals.reduce(maxRevealByColor('blue'), 1);
+
+        return maxGreen * maxRed * maxBlue;
     }
 
     isGamePossible(cubeGameBag) {

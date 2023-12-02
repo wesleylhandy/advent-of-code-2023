@@ -13,6 +13,7 @@ async function getSolution() {
 
     return {
         possibleGames: possibleGames.reduce((sum, game) => sum + game.gameId, 0),
+        maxPower: cubeGames.reduce((sum, game) => sum + game.getGamePower(), 0),
     };
 }
 
