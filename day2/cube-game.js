@@ -4,9 +4,9 @@ const { isValidGameReveal } = require('./is-valid-reveal');
 const { maxRevealByColor } = require('./max-reveal');
 
 class CubeGame {
-    /** @type {(Number|null)} */
+    /** @type {(Number|null)} @private */
     #gameId = null;
-    /** @type CubeGameReveal[] */
+    /** @type CubeGameReveal[] @private */
     #reveals = [];
 
     /**
@@ -57,6 +57,8 @@ class CubeGame {
     /**
      * Parses gamedata into useable components
      * @param {String} gameData
+     *
+     * @private
      */
     #parseGame(gameData) {
         const gameDataParts = gameData.split(': ');
@@ -69,6 +71,8 @@ class CubeGame {
      * Sets the Game Id from split gameData
      * @param {String[]} gameDataParts
      *
+     * @private
+     *
      * @example
      * this.#parseGameId(['Game 95'], ['3 red; 7 green, 4 red, 7 blue; 5 red, 5 blue'])
      */
@@ -79,6 +83,8 @@ class CubeGame {
     /**
      * Sets the Game Reveals from split gameData
      * @param {String[]} gameDataParts
+     *
+     * @private
      *
      * @example
      * this.#parseGameId(['Game 95'], ['3 red; 7 green, 4 red, 7 blue; 5 red, 5 blue'])

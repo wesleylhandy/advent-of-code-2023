@@ -1,9 +1,9 @@
 class CubeGameBag {
-    /** @type {(Number|undefined)} */
+    /** @type {(Number|undefined)} @private */
     #blue;
-    /** @type {(Number|undefined)} */
+    /** @type {(Number|undefined)} @private */
     #green;
-    /** @type {(Number|undefined)} */
+    /** @type {(Number|undefined)} @private */
     #red;
     constructor(numRed, numGreen, numBlue) {
         if (typeof numRed !== 'number') {

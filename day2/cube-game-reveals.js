@@ -1,9 +1,9 @@
 class CubeGameReveal {
-    /** @type {(Number|undefined)} */
+    /** @type {(Number|undefined)} @private */
     #blue;
-    /** @type {(Number|undefined)} */
+    /** @type {(Number|undefined)} @private */
     #green;
-    /** @type {(Number|undefined)} */
+    /** @type {(Number|undefined)} @private */
     #red;
 
     /**
@@ -32,20 +32,29 @@ class CubeGameReveal {
         return this.#red ?? 0;
     }
 
+    /**
+     * Sets the reveal value for each color based on data
+     * @param {string} revealData
+     *
+     * @private
+     *
+     * @example
+     * this.#parseRevealData('7 green, 4 red, 7 blue')
+     */
     #parseRevealData(revealData) {
         const revealDataParts = revealData.split(', ');
         for (const part of revealDataParts) {
-            const reveal = part.split(/\s/);
-            const revealNumber = Number.parseInt(reveal[0]);
-            switch (reveal[1]) {
+            const [value, color] = part.split(/\s/);
+            const parsedValue = Number.parseInt(value);
+            switch (color) {
                 case 'green':
-                    this.#green = revealNumber;
+                    this.#green = parsedValue;
                     break;
                 case 'red':
-                    this.#red = revealNumber;
+                    this.#red = parsedValue;
                     break;
                 case 'blue':
-                    this.#blue = revealNumber;
+                    this.#blue = parsedValue;
                 default:
                     break;
             }
