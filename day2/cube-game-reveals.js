@@ -1,7 +1,18 @@
 class CubeGameReveal {
+    /** @type {(Number|undefined)} */
     #blue;
+    /** @type {(Number|undefined)} */
     #green;
+    /** @type {(Number|undefined)} */
     #red;
+
+    /**
+     * Constructs a CubeGameReveal from parsed reveal data
+     * @param {String} revealData
+     *
+     * @example
+     * const game = new CubeGameReveal('3 red; 7 green, 4 red, 7 blue; 5 red, 5 blue')
+     */
     constructor(revealData = '') {
         if (typeof revealData !== 'string') {
             throw new TypeError('revealData must be of type `string`');

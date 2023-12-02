@@ -1,4 +1,5 @@
 const { getDataByLine } = require('../common/get-data');
+const { reduceToSum } = require('../common/reducers');
 const {
     decodeDataIntoCalibrationValues,
     decodeDataIntoCalibrationValuesReadingEnglishNumbers,
@@ -13,12 +14,6 @@ async function getSolution() {
         calibrationSum: reduceToSum(decodedCalibrationData),
         calibrationGranularSum: reduceToSum(decodedGranularCalibrationData),
     };
-}
-
-function reduceToSum(array) {
-    return array.reduce((sum, value) => {
-        return sum + Number.parseInt(value, 10);
-    }, 0);
 }
 
 module.exports.getSolution = getSolution;

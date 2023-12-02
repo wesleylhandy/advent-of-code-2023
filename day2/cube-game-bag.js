@@ -1,6 +1,9 @@
 class CubeGameBag {
+    /** @type {(Number|undefined)} */
     #blue;
+    /** @type {(Number|undefined)} */
     #green;
+    /** @type {(Number|undefined)} */
     #red;
     constructor(numRed, numGreen, numBlue) {
         if (typeof numRed !== 'number') {

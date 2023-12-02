@@ -20,6 +20,12 @@ const numberNamesToDigits = new Map([
     ['nine', '9'],
 ]);
 
+/**
+ * Decodes data into array of strings representing two digit numbers,
+ * the first numeric character in the string concatenated with the last
+ * @param {string[]} data
+ * @returns {string[]} calibration values
+ */
 function decodeDataIntoCalibrationValues(data) {
     if (!Array.isArray(data)) {
         return [];
@@ -28,6 +34,13 @@ function decodeDataIntoCalibrationValues(data) {
     return data.map(decodeNonNumerics);
 }
 
+/**
+ * Decodes data into array of strings representing two digit numbers,
+ * the first numeric value in the string concatenated with the last;
+ * this decoder will convert number names into their values (ie. `'nine'` => `9`)
+ * @param {string[]} data
+ * @returns {string[]} calibration values
+ */
 function decodeDataIntoCalibrationValuesReadingEnglishNumbers(data) {
     if (!Array.isArray(data)) {
         return [];
@@ -44,6 +57,14 @@ function decodeDataIntoCalibrationValuesReadingEnglishNumbers(data) {
     });
 }
 
+/**
+ * Removes non-numerical values from a string and concatenates first numerical character with the last
+ * @param {String} datum
+ * @returns String - two-digit number
+ *
+ * @example
+ * decodeNonNumerics('z5akljjf899h0') // 50
+ */
 function decodeNonNumerics(datum) {
     const strippedDatum = stripNonNumericsFromString(datum);
 
