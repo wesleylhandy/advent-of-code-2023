@@ -1,6 +1,10 @@
-const day1 = require('./Day_1_Trebuchet/get-solution');
+const day1 = require('./day1/get-solution');
+const day2 = require('./day2/get-solution');
 
-const getSolutionByDay = new Map([['1', day1.getSolution]]);
+const getSolutionByDay = new Map([
+    ['1', day1.getSolution],
+    ['2', day2.getSolution],
+]);
 
 async function main() {
     const day = process.argv[2];

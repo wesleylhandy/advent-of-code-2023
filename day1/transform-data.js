@@ -1,10 +1,4 @@
-function decodeDataIntoCalibrationValues(data) {
-    if (!Array.isArray(data)) {
-        return [];
-    }
-
-    return data.map(stripNonNumerics);
-}
+const { stripNonNumericsFromString } = require('../common/strip-non-numerics-from-string');
 
 const numberNamesToDigits = new Map([
     ['oneight', '18'],
@@ -26,6 +20,14 @@ const numberNamesToDigits = new Map([
     ['nine', '9'],
 ]);
 
+function decodeDataIntoCalibrationValues(data) {
+    if (!Array.isArray(data)) {
+        return [];
+    }
+
+    return data.map(decodeNonNumerics);
+}
+
 function decodeDataIntoCalibrationValuesReadingEnglishNumbers(data) {
     if (!Array.isArray(data)) {
         return [];
@@ -38,12 +40,12 @@ function decodeDataIntoCalibrationValuesReadingEnglishNumbers(data) {
                 transformedDatum = transformedDatum.replaceAll(key, value);
             }
         }
-        return stripNonNumerics(transformedDatum);
+        return decodeNonNumerics(transformedDatum);
     });
 }
 
-function stripNonNumerics(datum) {
-    const strippedDatum = datum.replace(/[^0-9]/gi, '');
+function decodeNonNumerics(datum) {
+    const strippedDatum = stripNonNumericsFromString(datum);
 
     return strippedDatum.length === 0 ? '0' : strippedDatum[0] + strippedDatum[strippedDatum.length - 1];
 }

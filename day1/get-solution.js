@@ -1,11 +1,11 @@
-const { getData } = require('./get-data');
+const { getDataByLine } = require('../common/get-data');
 const {
     decodeDataIntoCalibrationValues,
     decodeDataIntoCalibrationValuesReadingEnglishNumbers,
 } = require('./transform-data');
 
 async function getSolution() {
-    const data = await getData();
+    const data = await getDataByLine(__dirname);
     const decodedCalibrationData = decodeDataIntoCalibrationValues(data);
     const decodedGranularCalibrationData = decodeDataIntoCalibrationValuesReadingEnglishNumbers(data);
 

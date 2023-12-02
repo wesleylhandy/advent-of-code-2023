@@ -1,14 +1,14 @@
 const { readFile } = require('node:fs/promises');
 const { resolve } = require('node:path');
 
-async function getData() {
-    const data = await readData();
+async function getDataByLine(dirName) {
+    const data = await readData(dirName);
     return data.split('\n') ?? [];
 }
 
-async function readData() {
+async function readData(dirName) {
     try {
-        const filePath = resolve(__dirname, './data/data.txt');
+        const filePath = resolve(dirName, './data/data.txt');
         const data = await readFile(filePath, {
             encoding: 'utf-8',
         });
@@ -19,4 +19,4 @@ async function readData() {
     }
 }
 
-module.exports.getData = getData;
+module.exports.getDataByLine = getDataByLine;
