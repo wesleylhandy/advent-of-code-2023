@@ -1,3 +1,5 @@
+const GEAR_SYMBOL = '*';
+
 class DataNode {
     /** @type {string|null} @private */
     #value;
@@ -11,6 +13,8 @@ class DataNode {
     #bottom;
     /** @type {boolean} @private */
     #hasInitializedNeighbors = false;
+    /** @type {string[]} @private */
+    #adjacentTokens = false;
 
     /**
      * Constructs new DataNode
@@ -53,6 +57,10 @@ class DataNode {
         return this.#bottom;
     }
 
+    get adjacentTokens() {
+        return this.#adjacentTokens;
+    }
+
     /**
      *
      * @param {DataNode|null} top
@@ -75,43 +83,154 @@ class DataNode {
         return /[^0-9.]/.test(this.#value);
     }
 
+    /**
+     * Determines if Value is `'*'`
+     * @returns {Boolean}
+     */
+    isGearSymbol() {
+        return this.#value === GEAR_SYMBOL;
+    }
+
     isDigit() {
         return /[0-9]/.test(this.#value);
     }
 
     isAdjacentSymbol() {
-        // check if token top
+        // check if symbol top
         if (this.#top?.isSymbol()) {
             return true;
         }
-        // check if token bottom
+        // check if symbol bottom
         if (this.#bottom?.isSymbol()) {
             return true;
         }
-        // check if token right
+        // check if symbol right
         if (this.#right?.isSymbol()) {
             return true;
         }
-        // check if token left
+        // check if symbol left
         if (this.#left?.isSymbol()) {
             return true;
         }
-        // check if token bottom left
+        // check if symbol bottom left
         if (this.#bottom?.left?.isSymbol()) {
             return true;
         }
-        // check if token bottom right
+        // check if symbol bottom right
         if (this.#bottom?.right?.isSymbol()) {
             return true;
         }
-        // check if token top left
+        // check if symbol top left
         if (this.#top?.left?.isSymbol()) {
             return true;
         }
-        // check if token top right
+        // check if symbol top right
         if (this.#top?.right?.isSymbol()) {
             return true;
         }
+    }
+
+    isGearAdjacentToTwoTokens() {
+        return this.#getAdjacentTokens().length === 2;
+    }
+
+    /**
+     * Gets Tokens Adjacent to Gear Symbol
+     * @returns {string[]}
+     */
+    #getAdjacentTokens() {
+        if (!this.isGearSymbol()) {
+            return [];
+        }
+
+        /** @type string[] */
+        let adjacentTokens = [];
+
+        // check if digit right
+        if (this.#right?.isDigit()) {
+            adjacentTokens.push(this.#right.getRawTokenValue());
+        }
+
+        // check if digit left
+        if (this.#left?.isDigit()) {
+            adjacentTokens.push(this.#left.getRawTokenValue());
+        }
+
+        let bottomCleared = false;
+
+        // check if all bottom are digits
+        if (this.#bottom?.left?.isDigit() && this.#bottom?.isDigit() && this.#bottom?.right?.isDigit()) {
+            adjacentTokens.push(this.#bottom.getRawTokenValue());
+            bottomCleared = true;
+        }
+
+        // check if bottom && bottom-left are digits
+        if (!bottomCleared && this.#bottom?.left?.isDigit() && this.#bottom?.isDigit()) {
+            adjacentTokens.push(this.#bottom.getRawTokenValue());
+            bottomCleared = true;
+        }
+
+        // check if bottom && bottom-right are digits
+        if (!bottomCleared && this.#bottom?.right?.isDigit() && this.#bottom?.isDigit()) {
+            adjacentTokens.push(this.#bottom.getRawTokenValue());
+            bottomCleared = true;
+        }
+
+        // check if bottom is digit
+        if (!bottomCleared && this.#bottom?.isDigit()) {
+            adjacentTokens.push(this.#bottom.getRawTokenValue());
+            bottomCleared = true;
+        }
+
+        // check if bottom-right is digit
+        if (!bottomCleared && this.#bottom?.right?.isDigit()) {
+            adjacentTokens.push(this.#bottom.right.getRawTokenValue());
+        }
+
+        // check if bottom-left is digit
+        if (!bottomCleared && this.#bottom?.left?.isDigit()) {
+            adjacentTokens.push(this.#bottom.left.getRawTokenValue());
+        }
+
+        let topCleared = false;
+
+        // check if all top are digits
+        if (this.#top?.left?.isDigit() && this.#top?.isDigit() && this.#top?.right?.isDigit()) {
+            adjacentTokens.push(this.#top.getRawTokenValue());
+            topCleared = true;
+        }
+
+        // check if top && top-left are digits
+        if (!topCleared && this.#top?.left?.isDigit() && this.#top?.isDigit()) {
+            adjacentTokens.push(this.#top.getRawTokenValue());
+            topCleared = true;
+        }
+
+        // check if top && top-right are digits
+        if (!topCleared && this.#top?.right?.isDigit() && this.#top?.isDigit()) {
+            adjacentTokens.push(this.#top.getRawTokenValue());
+            topCleared = true;
+        }
+
+        // check if top is digit
+        if (!topCleared && this.#top?.isDigit()) {
+            adjacentTokens.push(this.#top.getRawTokenValue());
+            topCleared = true;
+        }
+
+        // check if top-right is digit
+        if (!topCleared && this.#top?.right?.isDigit()) {
+            adjacentTokens.push(this.#top.right.getRawTokenValue());
+        }
+
+        // check if top-left is digit
+        if (!topCleared && this.#top?.left?.isDigit()) {
+            adjacentTokens.push(this.#top.left.getRawTokenValue());
+        }
+
+        this.#adjacentTokens = adjacentTokens;
+
+        return adjacentTokens;
     }
 
     /**
@@ -120,17 +239,30 @@ class DataNode {
      * if any of those nodes are adjacent to a token marker.
      * @returns {NumberLike|null}
      */
-    getTokenValue() {
+    getSchematicTokenValue() {
         if (this.#left?.isDigit()) {
             return null;
         }
         const rightNodes = this.#getRightNodes(this, []);
-        const isAdjacentToken = rightNodes.some(node => node.isAdjacentSymbol());
+        const isAdjacentSymbol = rightNodes.some(node => node.isAdjacentSymbol());
 
-        if (isAdjacentToken) {
+        if (isAdjacentSymbol) {
             return rightNodes.map(node => node.value).join('');
         }
         return null;
+    }
+
+    getRawTokenValue() {
+        if (!this.isDigit()) {
+            return null;
+        }
+        const leftNodes = this.#getLeftNodes(this.#left, []);
+        const rightNodes = this.#getRightNodes(this, []);
+
+        return leftNodes
+            .concat(rightNodes)
+            .map(node => node.value)
+            .join('');
     }
 
     /**
@@ -144,6 +276,19 @@ class DataNode {
             return rightNodes;
         }
         return this.#getRightNodes(node.right, [...rightNodes, node]);
+    }
+
+    /**
+     * Recursively Get Left Nodes to Compose a Token Value
+     * @param {DataNode | null} node
+     * @param {DataNode[]} leftNodes
+     * @returns {DataNode[]} Array of Nodes to the Right
+     */
+    #getLeftNodes(node, leftNodes = []) {
+        if (node == null || !node.isDigit()) {
+            return leftNodes;
+        }
+        return this.#getLeftNodes(node.left, [node, ...leftNodes]);
     }
 }
 
