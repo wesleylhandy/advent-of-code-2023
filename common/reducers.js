@@ -8,7 +8,7 @@
  * @returns {number} sum of values in array
  */
 function reduceToSum(array) {
-    return array.reduce(sumNumberLikeReducer, 0);
+    return array.reduce(addSumToNumberLike, 0);
 }
 
 /**
@@ -17,7 +17,7 @@ function reduceToSum(array) {
  * @returns {number} sum of values in array
  */
 function reduceToProduct(array) {
-    return array.reduce(multiplyNumberLikeReducer, 1);
+    return array.reduce(multiplyProductWithNumberLike, 1);
 }
 
 /**
@@ -26,13 +26,15 @@ function reduceToProduct(array) {
  * @param {NumberLike} value - value to add
  * @returns {number} new sum
  */
-function sumNumberLikeReducer(sum, value) {
+function addSumToNumberLike(sum, value) {
     return sum + Number.parseInt(value, 10);
 }
 
-function multiplyNumberLikeReducer(product, value) {
+function multiplyProductWithNumberLike(product, value) {
     return product * Number.parseInt(value, 10);
 }
 
 module.exports.reduceToSum = reduceToSum;
 module.exports.reduceToProduct = reduceToProduct;
+module.exports.addSumToNumberLike = addSumToNumberLike;
+module.exports.multiplyProductWithNumberLike = multiplyProductWithNumberLike;

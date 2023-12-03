@@ -1,5 +1,5 @@
 const { getDataAsTable } = require('../common/get-data');
-const { reduceToProduct } = require('../common/reducers');
+const { reduceToProduct, addSumToNumberLike } = require('../common/reducers');
 const { transformDataIntoDataNodes } = require('./transform-data');
 
 async function getSolution() {
@@ -13,14 +13,14 @@ async function getSolution() {
             if (tokenValue === null) {
                 return sum;
             }
-            return sum + Number.parseInt(tokenValue, 10);
+            return addSumToNumberLike(sum, tokenValue);
         }, 0),
         sumOfGearRatios: dataNodes.reduce((sum, node) => {
             const isValidGear = node.isGearAdjacentToTwoTokens();
             if (!isValidGear) {
                 return sum;
             }
-            return sum + reduceToProduct(node.adjacentTokens);
+            return addSumToNumberLike(sum, reduceToProduct(node.adjacentTokens));
         }, 0),
     };
 }
