@@ -1,9 +1,11 @@
 const day1 = require('./day1/get-solution');
 const day2 = require('./day2/get-solution');
+const day3 = require('./day3/get-solution');
 
 const getSolutionByDay = new Map([
     ['1', day1.getSolution],
     ['2', day2.getSolution],
+    ['3', day3.getSolution],
 ]);
 
 async function main() {

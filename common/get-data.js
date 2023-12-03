@@ -2,6 +2,16 @@ const { readFile } = require('node:fs/promises');
 const { resolve } = require('node:path');
 
 /**
+ * Asynchronously gets data from a given directory to 2d array of string
+ * @param {String} dirName
+ * @returns {Promise<String[][]>} files contents by line by character
+ */
+async function getDataAsTable(dirName) {
+    const data = await getDataByLine(dirName);
+    return data.map(line => Array.from(line));
+}
+
+/**
  * Asynchronously gets data from a given directory to an array of lines
  * @param {String} dirName
  * @returns {Promise<String[]>} files contents by line
@@ -30,3 +40,4 @@ async function readData(dirName) {
 }
 
 module.exports.getDataByLine = getDataByLine;
+module.exports.getDataAsTable = getDataAsTable;
