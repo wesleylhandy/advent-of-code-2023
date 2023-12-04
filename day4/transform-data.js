@@ -8,7 +8,7 @@ const { ScratchCard } = require('./scratch-card');
  */
 
 /**
- *
+ * Transforms array of string data into an array of ScratchCard objects
  * @param {string[]} data
  * @returns {ScratchCard[]}
  */
@@ -20,7 +20,7 @@ function transformDataIntoScratchCards(data) {
 }
 
 /**
- *
+ * Parses string of data into components for Scratch Cards
  * @param {string} datum
  * @returns {ScratchCardData}
  */
@@ -39,7 +39,9 @@ function parseScratchCardDatum(datum) {
 }
 
 /**
- *
+ * Generates the count of scratch cards by game rules.
+ * By rules of the game, scratch cards with winning numbers create copies of successive cards
+ * according to the number of instances and the number of winning matches.
  * @param {ScratchCard[]} scratchCards
  * @returns {void}
  */
@@ -55,7 +57,7 @@ function generateWinningCards(scratchCards) {
 }
 
 /**
- *
+ * Parses string of two character numerical digits into an array of numbers
  * @param {string} value
  * @returns {number[]}
  */
