@@ -17,6 +17,9 @@ class CubeGame {
      * const game = new CubeGame('Game 95: 3 red; 7 green, 4 red, 7 blue; 5 red, 5 blue')
      */
     constructor(gameData = '') {
+        if (!(this instanceof CubeGame)) {
+            return new CubeGame(gameData);
+        }
         if (typeof gameData !== 'string') {
             throw new TypeError('gameData must be of type `string`');
         }

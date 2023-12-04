@@ -6,6 +6,9 @@ class CubeGameBag {
     /** @type {(Number|undefined)} @private */
     #red;
     constructor(numRed, numGreen, numBlue) {
+        if (!(this instanceof CubeGameBag)) {
+            return new CubeGameBag(numRed, numGreen, numBlue);
+        }
         if (typeof numRed !== 'number') {
             throw new TypeError('numRed must be of type `number`');
         }

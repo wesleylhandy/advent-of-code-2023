@@ -21,6 +21,9 @@ class DataNode {
      * @param {string} value
      */
     constructor(value) {
+        if (!(this instanceof DataNode)) {
+            return new DataNode(value);
+        }
         this.#value = value;
         this.#hasInitializedNeighbors = false;
     }
