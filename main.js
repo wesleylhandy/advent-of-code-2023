@@ -3,6 +3,7 @@ const day2 = require('./day2/get-solution');
 const day3 = require('./day3/get-solution');
 const day4 = require('./day4/get-solution');
 const day5 = require('./day5/get-solution');
+const day6 = require('./day6/get-solution');
 
 const getSolutionByDay = new Map([
     ['1', day1.getSolution],
@@ -10,6 +11,7 @@ const getSolutionByDay = new Map([
     ['3', day3.getSolution],
     ['4', day4.getSolution],
     ['5', day5.getSolution],
+    ['6', day6.getSolution],
 ]);
 
 async function main() {
