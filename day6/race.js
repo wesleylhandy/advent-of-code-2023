@@ -16,14 +16,6 @@ class Race {
         this.#recordDistanceInMm = recordDistanceInMm;
     }
 
-    get raceLengthInMs() {
-        return this.#raceLengthInMS;
-    }
-
-    get recordDistanceInMm() {
-        return this.#recordDistanceInMm;
-    }
-
     /**
      * Calculate count of possible winning races by simulating all valied button press times
      * @returns {number} Count of Record Breaking Race Possibilities
@@ -91,7 +83,7 @@ class Race {
      */
     #willButtonPressBreakRecordDistance(timePressingButtonInMs) {
         // (lengthInMs - msPressing) * rate > record
-        return (this.#raceLengthInMS - timePressingButtonInMs) * timePressingButtonInMs > this.recordDistanceInMm;
+        return (this.#raceLengthInMS - timePressingButtonInMs) * timePressingButtonInMs > this.#recordDistanceInMm;
     }
 }
 
