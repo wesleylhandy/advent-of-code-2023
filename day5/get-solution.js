@@ -17,12 +17,14 @@ async function getSolution() {
     return {
         lowestLocationSingleSeeds: Array.from(seedsAsSingleValues)
             .map(seed => almanac.getMappedDestinationValue(seed, 'location'))
-            .sort(sortBigIntAscending)[0],
+            .sort(sortBigIntAscending)[0]
+            .toString(),
         lowestLocationSeedRanges: Array.from(seedsAsRanges)
-            .map(([s, r]) => almanac.getMappedDestinationValueFromRange(s, r, 'location'))
+            .map(([startValue, range]) => almanac.getMappedDestinationValueFromRange(startValue, range, 'location'))
             .flat(7)
-            .map(([s, _]) => s)
-            .sort(sortBigIntAscending)[0],
+            .map(([startValue, _]) => startValue)
+            .sort(sortBigIntAscending)[0]
+            .toString(),
     };
 }
 
