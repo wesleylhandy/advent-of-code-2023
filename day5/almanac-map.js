@@ -1,3 +1,5 @@
+const { isWithinRange, areRangesOverlapping, bigIntMax, getOverlappingRange } = require('../common/compare');
+
 /**
  * @typedef {Object} AlmanacMapConstructorArgs
  * @property {string} sourceCategory
@@ -67,13 +69,6 @@ class Almanac {
      * @param {Almanac} almanac
      */
     setDestinationAlmanac(almanac) {
-        console.log(
-            'Setting Destination Almanac for',
-            this.#sourceCategory,
-            'with destination:',
-            almanac.sourceCategory,
-        );
-        console.log('Destination Category of', almanac.sourceCategory, 'is:', almanac.destinationCategory);
         this.#destinationAlmanac = almanac;
     }
 
@@ -91,7 +86,6 @@ class Almanac {
 
     /**
      * Gets Final Destination Value mapped to Source Value
-     * @param {Almanac|null} sourceMap
      * @param {number} sourceValue
      * @param {string} destinationCategory
      *
@@ -109,15 +103,60 @@ class Almanac {
     }
 
     /**
+     * Gets Final Destination Value mapped to Source Value
+     * @param {SourceRangeStart} sourceValue
+     * @param {RangeLength} sourceRangeLength
+     * @param {string} destinationCategory
+     *
+     * @returns {[SourceRangeStart, RangeLength][]}
+     */
+    getMappedDestinationValueFromRange(sourceValue, sourceRangeLength, destinationCategory) {
+        const matchingRanges = this.#getMatchingRanges(sourceValue, sourceRangeLength);
+        if (this.#destinationCategory === destinationCategory) {
+            return matchingRanges;
+        }
+        if (typeof this.destinationAlmanac === 'undefined') {
+            return [[sourceValue, sourceRangeLength]];
+        }
+        return matchingRanges.map(([start, range]) =>
+            this.destinationAlmanac.getMappedDestinationValueFromRange(start, range, destinationCategory),
+        );
+    }
+
+    /**
+     *
+     * @param {SourceRangeStart} sourceValue
+     * @param {RangeLength} sourceRangeLength
+     * @returns {[SourceRangeStart, RangeLength][]}
+     */
+    #getMatchingRanges(sourceValue, sourceRangeLength) {
+        const ranges = this.#rangeDeclarations.filter(([_, sourceStart, range]) =>
+            areRangesOverlapping(sourceStart, range, sourceValue, sourceRangeLength),
+        );
+
+        if (ranges.length === 0) {
+            return [[sourceValue, sourceRangeLength]];
+        }
+        return ranges.map(([destinationStart, sourceStart, range]) => {
+            return [
+                bigIntMax(destinationStart, destinationStart + sourceValue - sourceStart),
+                getOverlappingRange(sourceStart, range, sourceValue, sourceRangeLength),
+            ];
+        });
+    }
+
+    /**
      * Generate Mapped Value From Source Value
      * If value is not mapped, returns null
      * @param {value} sourceValue
      * @returns {bigint}
      */
     #getMappedValue(sourceValue) {
-        const range = this.#rangeDeclarations.find(([_, s, r]) => s + r > sourceValue && sourceValue >= s);
-        if (range) {
-            return range[0] + (sourceValue - range[1]);
+        const rangeDeclaration = this.#rangeDeclarations.find(([_, sourceStart, range]) =>
+            isWithinRange(sourceValue, sourceStart, range),
+        );
+        if (rangeDeclaration) {
+            return rangeDeclaration[0] + (sourceValue - rangeDeclaration[1]);
         }
         return sourceValue;
     }

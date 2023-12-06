@@ -15,8 +15,13 @@ async function getSolution() {
     const seedsAsRanges = getSeedRangesFromLine(data[0]);
 
     return {
-        lowestLocation: Array.from(seedsAsSingleValues)
+        lowestLocationSingleSeeds: Array.from(seedsAsSingleValues)
             .map(seed => almanac.getMappedDestinationValue(seed, 'location'))
+            .sort(sortBigIntAscending)[0],
+        lowestLocationSeedRanges: Array.from(seedsAsRanges)
+            .map(([s, r]) => almanac.getMappedDestinationValueFromRange(s, r, 'location'))
+            .flat(7)
+            .map(([s, _]) => s)
             .sort(sortBigIntAscending)[0],
     };
 }
